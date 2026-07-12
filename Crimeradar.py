@@ -349,8 +349,8 @@ elif menu == "⏰ Time Analysis":
 
     st.title("⏰ Time Analysis")
     
-    df.columns = df.columns.str.strip()
-    st.write(df.columns.tolist())
+    # df.columns = df.columns.str.strip()
+    # st.write(df.columns.tolist())
 
     st.write("Dataset Columns:", df.columns.tolist())
 
