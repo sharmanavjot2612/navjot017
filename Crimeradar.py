@@ -122,7 +122,7 @@ if menu == "🏠 Overview":
 elif menu == "📁 Upload & Preview":
         st.title("📁 Upload & Preview")
         st.subheader("📋 Chicago Crime Dataset")
-        st.dataframe(df, use_container_width=True)
+        st.dataframe(df, width="stretch")
         st.subheader("📋 Crime Dataset Preview")
         df = pd.read_csv("chicago_crime_sample.csv")
         st.subheader("First 10 Records")
@@ -162,7 +162,7 @@ if menu == "🧹 Data Cleaning":
     with col3:
         st.subheader("🔍 Missing Values")
         missing = df.isnull().sum()
-        st.dataframe(missing[missing > 0], use_container_width=True)
+        st.dataframe(missing[missing > 0], width="stretch")
 
     with col4:
         st.subheader("🧹 Duplicate Records")
@@ -185,33 +185,6 @@ if menu == "🧹 Data Cleaning":
         df["Month"] = pd.to_datetime(df["Month"], errors="coerce")
         st.success("Month column converted into date format")
     
-# if menu=="📊 Crime Analytics":
-#     col1,col2=st.columns(2)
-#     with col1:    
-#         crime = df["Primary Type"].value_counts().head(10).sort_values()
-#     plt.figure(figsize=(10,6))
-#     plt.barh(crime.index, crime.values, color="tomato", edgecolor="black")
-#     plt.title("🚔 Top 10 Crime Types", fontsize=16, fontweight="bold")
-#     plt.xlabel("Number of Crimes")
-#     plt.grid(axis="x", linestyle="--", alpha=0.5)
-#     plt.tight_layout()
-#     plt.show()           
-
-#     with col2:
-#         crime = df["Primary Type"].value_counts().head(6)
-#         plt.figure(figsize=(7,7))
-#         plt.pie(crime.values, labels=crime.index, autopct="%1.1f%%", wedgeprops={"width":0.4})
-#         plt.title("🚨 Crime Distribution")
-#         crime_arrest = pd.crosstab(df["Primary Type"], df["Arrest"]).head(10)
-#         crime_arrest.plot(kind="bar",stacked=True,figsize=(12,6))
-#         plt.title("👮 Crime Type vs Arrest")
-#         plt.xlabel("Crime Type")
-#         plt.ylabel("Number of Crimes")
-#         plt.xticks(rotation=45)
-#         plt.tight_layout()
-#         plt.show()           
-
-
 if menu == "🗺️ Hotspot Map":
     st.title("🗺️ Crime Hotspots")
     col1, col2 = st.columns(2)
@@ -360,7 +333,7 @@ if menu == "👮 Arrest Analysis":
 
         radar_fig.update_layout(title="Crime Radar Chart",polar=dict(radialaxis=dict(visible=True,range=[0,100])),height=450,showlegend=False)
 
-        st.plotly_chart(radar_fig, use_container_width=True)
+        st.plotly_chart(radar_fig,width="stretch")
 
         st.subheader("🌳 Crime Type & Arrest Status")
 
@@ -375,8 +348,7 @@ if menu == "👮 Arrest Analysis":
 elif menu == "⏰ Time Analysis":
 
     st.title("⏰ Time Analysis")
-
-    # Remove spaces from column names
+    
     df.columns = df.columns.str.strip()
     st.write(df.columns.tolist())
 
@@ -417,7 +389,7 @@ elif menu == "⏰ Time Analysis":
             title="Crime Trend Over Time"
         )
 
-        st.plotly_chart(fig1, use_container_width=True)
+        st.plotly_chart(fig1, width="stretch")
 
 
         # Graph 2: Crime Count by Month
@@ -440,7 +412,7 @@ elif menu == "⏰ Time Analysis":
             title="Crime Count by Month"
         )
 
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig2,width="stretch")
 
 
         # Graph 3: Crime Type Trend
@@ -463,7 +435,7 @@ elif menu == "⏰ Time Analysis":
                 title="Crime Type Over Time"
             )
 
-            st.plotly_chart(fig3, use_container_width=True)
+            st.plotly_chart(fig3,width="stretch")
 
         else:
             st.warning("Crime type column not found")
