@@ -6,11 +6,15 @@ import plotly.graph_objects as go
 import seaborn as sns
 import base64
 
-st.sidebar.markdown("## 🚔 Crime Radar")
 st.set_page_config(page_title="Crime Radar",page_icon="🚔",layout="wide")
+st.sidebar.markdown("## 🚔 Crime Radar")
 menu = st.sidebar.radio("Navigation",["🏠 Overview","📁 Upload & Preview","🧹 Data Cleaning","📊 Crime Analytics","🗺️ Hotspot Map","👮 Arrest Analysis","⏰ Time Analysis","📝 Summary & Conclusion"],label_visibility="collapsed")
 
-df = pd.read_csv("chicago_crime_sample.csv")
+try:
+    df = pd.read_csv("chicago_crime_sample.csv")
+except FileNotFoundError:
+    st.error("❌ Dataset file 'chicago_crime_sample.csv' not found.")
+    st.stop()
 
 if menu == "🏠 Overview":
 
