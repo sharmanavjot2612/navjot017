@@ -185,31 +185,31 @@ if menu == "🧹 Data Cleaning":
         df["Month"] = pd.to_datetime(df["Month"], errors="coerce")
         st.success("Month column converted into date format")
     
-if menu=="📊 Crime Analytics":
-    col1,col2=st.columns(2)
-    with col1:    
-        crime = df["Primary Type"].value_counts().head(10).sort_values()
-    plt.figure(figsize=(10,6))
-    plt.barh(crime.index, crime.values, color="tomato", edgecolor="black")
-    plt.title("🚔 Top 10 Crime Types", fontsize=16, fontweight="bold")
-    plt.xlabel("Number of Crimes")
-    plt.grid(axis="x", linestyle="--", alpha=0.5)
-    plt.tight_layout()
-    plt.show()           
+# if menu=="📊 Crime Analytics":
+#     col1,col2=st.columns(2)
+#     with col1:    
+#         crime = df["Primary Type"].value_counts().head(10).sort_values()
+#     plt.figure(figsize=(10,6))
+#     plt.barh(crime.index, crime.values, color="tomato", edgecolor="black")
+#     plt.title("🚔 Top 10 Crime Types", fontsize=16, fontweight="bold")
+#     plt.xlabel("Number of Crimes")
+#     plt.grid(axis="x", linestyle="--", alpha=0.5)
+#     plt.tight_layout()
+#     plt.show()           
 
-    with col2:
-        crime = df["Primary Type"].value_counts().head(6)
-        plt.figure(figsize=(7,7))
-        plt.pie(crime.values, labels=crime.index, autopct="%1.1f%%", wedgeprops={"width":0.4})
-        plt.title("🚨 Crime Distribution")
-        crime_arrest = pd.crosstab(df["Primary Type"], df["Arrest"]).head(10)
-        crime_arrest.plot(kind="bar",stacked=True,figsize=(12,6))
-        plt.title("👮 Crime Type vs Arrest")
-        plt.xlabel("Crime Type")
-        plt.ylabel("Number of Crimes")
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-        plt.show()           
+#     with col2:
+#         crime = df["Primary Type"].value_counts().head(6)
+#         plt.figure(figsize=(7,7))
+#         plt.pie(crime.values, labels=crime.index, autopct="%1.1f%%", wedgeprops={"width":0.4})
+#         plt.title("🚨 Crime Distribution")
+#         crime_arrest = pd.crosstab(df["Primary Type"], df["Arrest"]).head(10)
+#         crime_arrest.plot(kind="bar",stacked=True,figsize=(12,6))
+#         plt.title("👮 Crime Type vs Arrest")
+#         plt.xlabel("Crime Type")
+#         plt.ylabel("Number of Crimes")
+#         plt.xticks(rotation=45)
+#         plt.tight_layout()
+#         plt.show()           
 
 
 if menu == "🗺️ Hotspot Map":
