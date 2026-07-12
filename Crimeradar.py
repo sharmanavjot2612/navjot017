@@ -184,11 +184,6 @@ if menu == "🧹 Data Cleaning":
     if "Month" in df.columns:
         df["Month"] = pd.to_datetime(df["Month"], errors="coerce")
         st.success("Month column converted into date format")
-
-    st.set_page_config(
-    page_title="EDA Dashboard",
-    layout="wide"
-)
     
 if menu=="📊 Crime Analytics":
     col1,col2=st.columns(2)
@@ -512,13 +507,6 @@ if menu == "📝 Summary & Conclusion":
     updates, advanced analytics, and additional visualization features.
     """)
 
-
-import streamlit as st
-
-st.set_page_config(
-    page_title="Crime Radar",
-    layout="wide"
-)
 
 st.markdown("""
 <style>
