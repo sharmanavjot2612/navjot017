@@ -299,6 +299,7 @@ if menu == "📊 Crime Analytics":
         ax.set_title("🚨 Crime Distribution", color="white")
 
         st.pyplot(fig)
+        
         crime_arrest = pd.crosstab(df["Primary Type"], df["Arrest"]).head(10)
 
         fig, ax = plt.subplots(figsize=(12,6), facecolor="black")
@@ -335,8 +336,8 @@ if menu == "📊 Crime Analytics":
             plt.setp(legend.get_title(), color="white")
 
             plt.tight_layout()
-
             st.pyplot(fig)
+            plt.close(fig)
 
 
     
