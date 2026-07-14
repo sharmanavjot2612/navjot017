@@ -8,7 +8,7 @@ import base64
 
 st.set_page_config(page_title="Crime Radar",page_icon="🚔",layout="wide")
 st.sidebar.markdown("## 🚔 Crime Radar")
-menu = st.sidebar.radio("Navigation",["🏠 Overview","📁 Upload & Preview","🧹 Data Cleaning","📊 Crime Analytics","🗺️ Hotspot Map","👮 Arrest Analysis","⏰ Time Analysis","📝 Summary & Conclusion"],label_visibility="collapsed")
+menu = st.sidebar.radio("Navigation",["🏠 Overview","📁 Upload & Preview","🧹 Data Cleaning","📊 Crime Analytics","🗺️ Hotspot Map","👮 Arrest Analysis","⏰ Time Analysis","📝 Conclusion"],label_visibility="collapsed")
 
 try:
     df = pd.read_csv("chicago_crime_sample.csv")
@@ -20,15 +20,16 @@ if menu == "🏠 Overview":
 
     st.title("🚔 Crime Radar Dashboard")
 
-    st.write("🚔 About Crime Radar")
+    st.write("### 🚔 About Crime Radar")
+    st.write("""
+Crime Radar is a Data Science-based crime analysis and visualization dashboard.
+It analyzes historical crime records to identify crime patterns, major crime categories,
+crime trends, locations, and arrest information. The dashboard uses data cleaning,
+processing, and visualization techniques to present crime information through
+interactive charts and graphs, helping users better understand crime behavior and trends.
+""")
 
-    st.write("""Crime Radar is a Data Science-based crime analysis and visualization dashboard.It analyzes historical crime records to identify crime patterns, major crime categories, crime trends, locations, and arrest information.The dashboard uses data cleaning, processing, and visualization techniques to 
-            present crime information through interactive charts and graphs, helping users 
-            better understand crime behavior and trends.""")
-    ### 📌 About Crime Radar
-
-
-
+    # ===================== Metrics =====================
     col1, col2, col3, col4 = st.columns(4)
 
     col1.metric("Total Crimes", len(df))
@@ -36,35 +37,36 @@ if menu == "🏠 Overview":
     col3.metric("Districts", df["District"].nunique())
     col4.metric("Arrests", df["Arrest"].sum())
 
-
+    # ===================== Row 1 =====================
     col1, col2 = st.columns(2)
 
     with col1:
-
         crime = df["Primary Type"].value_counts().head(10).sort_values()
 
-        plt.figure(figsize=(8,5))
+        fig, ax = plt.subplots(figsize=(8,5))
+        fig.patch.set_facecolor("#121212")
+        ax.set_facecolor("#121212")
 
-        plt.barh(
-            crime.index,
-            crime.values
-        )
+        ax.barh(crime.index, crime.values, color="deepskyblue")
 
-        plt.title("🚔 Top 10 Crime Types")
-        plt.xlabel("Number of Crimes")
+        ax.set_title("🚔 Top 10 Crime Types", color="white")
+        ax.set_xlabel("Number of Crimes", color="white")
 
-        st.pyplot(plt)
+        ax.tick_params(colors="white")
+
+        for spine in ax.spines.values():
+            spine.set_color("white")
+
+        st.pyplot(fig)
 
     with col2:
 
         df["Date"] = pd.to_datetime(df["Date"])
-
         df["Month"] = df["Date"].dt.month_name()
 
         month_order = [
-            "January","February","March","April",
-            "May","June","July","August",
-            "September","October","November","December"
+            "January","February","March","April","May","June",
+            "July","August","September","October","November","December"
         ]
 
         monthly = (
@@ -73,51 +75,76 @@ if menu == "🏠 Overview":
             .reindex(month_order, fill_value=0)
         )
 
+        fig, ax = plt.subplots(figsize=(8,5))
+        fig.patch.set_facecolor("#121212")
+        ax.set_facecolor("#121212")
 
-        plt.figure(figsize=(8,5))
+        ax.plot(monthly.index, monthly.values,
+                marker="o",
+                color="cyan",
+                linewidth=2)
 
-        plt.plot(
-            monthly.index,
-            monthly.values,
-            marker="o"
-        )
-
-        plt.title("📅 Monthly Crime Trend")
-        plt.xlabel("Month")
-        plt.ylabel("Crime Count")
+        ax.set_title("📅 Monthly Crime Trend", color="white")
+        ax.set_xlabel("Month", color="white")
+        ax.set_ylabel("Crime Count", color="white")
 
         plt.xticks(rotation=45)
 
-        st.pyplot(plt)
+        ax.tick_params(colors="white")
 
-        st.subheader("👮 Arrest Status")
+        for spine in ax.spines.values():
+            spine.set_color("white")
+
+        st.pyplot(fig)
+
+    # ===================== Row 2 =====================
+    col3, col4 = st.columns(2)
+
+    with col3:
 
         arrest = df["Arrest"].value_counts()
 
-        plt.figure(figsize=(6,6))
+        fig, ax = plt.subplots(figsize=(6,6))
+        fig.patch.set_facecolor("#121212")
+        ax.set_facecolor("#121212")
 
-        plt.pie(arrest,labels=arrest.index,autopct="%1.1f%%",startangle=90)
+        ax.pie(
+            arrest,
+            labels=arrest.index,
+            autopct="%1.1f%%",
+            startangle=90,
+            colors=["#00BFFF","#FF4B4B"],
+            textprops={"color":"white"}
+        )
 
-        plt.title("Arrest Status")
+        ax.set_title("Arrest Status", color="white")
 
-        st.pyplot(plt)
+        st.pyplot(fig)
 
+    with col4:
 
-        st.subheader("🗺️ Crime Hotspot Overview")
+        fig, ax = plt.subplots(figsize=(6,6))
+        fig.patch.set_facecolor("#121212")
+        ax.set_facecolor("#121212")
 
-        plt.figure(figsize=(10,6))
+        ax.scatter(
+            df["Longitude"],
+            df["Latitude"],
+            color="cyan",
+            alpha=0.3,
+            s=8
+        )
 
-        plt.scatter(
-        df["Longitude"],
-        df["Latitude"],
-        alpha=0.3,
-        s=8)
+        ax.set_title("Crime Hotspots", color="white")
+        ax.set_xlabel("Longitude", color="white")
+        ax.set_ylabel("Latitude", color="white")
 
-        plt.title("Crime Hotspots")
-        plt.xlabel("Longitude")
-        plt.ylabel("Latitude")
+        ax.tick_params(colors="white")
 
-        st.pyplot(plt)
+        for spine in ax.spines.values():
+            spine.set_color("white")
+
+        st.pyplot(fig)
 
 elif menu == "📁 Upload & Preview":
         st.title("📁 Upload & Preview")
@@ -440,44 +467,20 @@ elif menu == "⏰ Time Analysis":
         else:
             st.warning("Crime type column not found")
 
-if menu == "📝 Summary & Conclusion":
+if menu == "📝 Conclusion":
 
     st.title("📝 Project Summary & Conclusion")
 
-    st.subheader("📌 Project Summary")
-
-    st.write("""
-    Crime Radar is a Data Science-based crime analysis and visualization project 
-    developed to understand crime patterns and trends using historical crime data.
-
-    The project focuses on collecting, cleaning, processing, and analyzing crime 
-    datasets to identify important information such as crime frequency, crime 
-    categories, locations, and time-based crime trends.
-
-    Using Python libraries like Pandas, Matplotlib, Plotly, and Streamlit, an 
-    interactive dashboard is created to visualize crime distribution, hotspots, 
-    arrest analysis, and time-based crime patterns.
-
-    The dashboard helps users explore crime data easily through interactive graphs 
-    and provides meaningful insights from large datasets.
-    """)
-
-
+   elif menu == "📝 Conclusion":
     st.subheader("✅ Conclusion")
 
     st.write("""
-    The Crime Radar project successfully demonstrates the use of Data Science 
-    techniques for crime data analysis and visualization.
-
-    The project helps in identifying crime patterns, analyzing high-crime areas, 
-    and understanding changes in crime trends through graphical representation.
-
-    The interactive dashboard provides a simple and effective way to analyze crime 
-    information and supports data-driven decision-making.
-
-    In the future, the project can be improved by adding real-time crime data 
-    updates, advanced analytics, and additional visualization features.
+    Crime Radar successfully applies Data Science techniques such as data cleaning, processing, analysis, and visualization to understand crime patterns and trends. The interactive dashboard presents meaningful insights from historical crime data, helping users explore crime distributions and make informed data-driven decisions.
     """)
+    st.subheader("🚀 Future Scope")
+    st.write("""**Future Scope:**
+The Crime Radar project can be enhanced by integrating real-time crime data, machine learning for crime prediction, and GIS-based interactive maps. Future versions may also include a mobile application, emergency alerts, and AI-powered analytics to improve public safety and support police decision-making.
+""")
 
 
 st.markdown("""
@@ -700,6 +703,133 @@ section[data-testid="stSidebar"] h3 {
 
 }
 
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+
+/* Sidebar Background */
+section[data-testid="stSidebar"] {
+
+    background: linear-gradient(
+        180deg,
+        #120000,
+        #330000,
+        #000000
+    ) !important;
+
+}
+
+
+/* Sidebar text */
+section[data-testid="stSidebar"] * {
+
+    color: white !important;
+
+}
+
+
+/* Sidebar menu hover */
+section[data-testid="stSidebar"] div:hover {
+
+    color: #ff3333 !important;
+
+}
+
+
+/* Radio buttons / menu */
+section[data-testid="stSidebar"] .stRadio label:hover {
+
+    background: rgba(255,0,0,0.25);
+
+    border-radius:10px;
+
+    padding:8px;
+
+}
+
+
+/* Sidebar title */
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3 {
+
+    color:#ff3333 !important;
+
+    text-shadow:0 0 15px red;
+
+}
+
 
 </style>
 """, unsafe_allow_html=True)
+
+def add_bg_from_local(image_file):
+    with open(image_file, "rb") as img:
+        encoded = base64.b64encode(img.read()).decode()
+
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)),
+                        url("data:image/jpg;base64,{encoded}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }}
+
+        /* Sidebar */
+        section[data-testid="stSidebar"] {{
+            background: rgba(15,15,20,0.92);
+            backdrop-filter: blur(8px);
+        }}
+
+        /* Metric cards */
+        div[data-testid="metric-container"] {{
+            background: rgba(40,0,0,0.70);
+            border: 1px solid red;
+            border-radius: 12px;
+            padding: 15px;
+        }}
+
+        div[data-testid="metric-container"] * {{
+            color: white !important;
+        }}
+
+        h1,h2,h3,p,label,span {{
+            color: white !important;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+add_bg_from_local("bg1.jpg")
+
+
+
+st.markdown("""
+    <style>
+    .director-box {
+        background-color: #2f2f2f;
+        padding: 15px;
+        border-radius: 15px;
+        text-align: center;
+        color: white;
+        border: 1px solid #555;
+    }
+    .director-box h3 {
+        color: #00c6ff;
+    }
+    </style>
+
+    <div class="director-box">
+        <h3>🚔 Crime Radar</h3>
+        <p>📌 Directed By</p>
+        <h4>Navjot Sharma</h4>
+        <p>📊 Data Science Project</p>
+        <p>🗓️ 45 Days Training</p>
+    </div>
+    """, unsafe_allow_html=True)
