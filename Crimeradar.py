@@ -467,11 +467,7 @@ elif menu == "⏰ Time Analysis":
         else:
             st.warning("Crime type column not found")
 
-if menu == "📝 Conclusion":
-
-    st.title("📝 Project Summary & Conclusion")
-
-   elif menu == "📝 Conclusion":
+elif menu == "📝 Conclusion":
     st.subheader("✅ Conclusion")
 
     st.write("""
