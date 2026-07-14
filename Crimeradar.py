@@ -643,7 +643,7 @@ elif menu == "📝 Conclusion":
 The Crime Radar project can be enhanced by integrating real-time crime data, machine learning for crime prediction, and GIS-based interactive maps. Future versions may also include a mobile application, emergency alerts, and AI-powered analytics to improve public safety and support police decision-making.
 """)
 
-st.markdown("""
+ st.markdown("""
     <style>
     .director-box {
         background-color: #2f2f2f;
@@ -652,6 +652,7 @@ st.markdown("""
         text-align: center;
         color: white;
         border: 1px solid #555;
+        margin-top: 40px;
     }
     .director-box h3 {
         color: #00c6ff;
@@ -666,7 +667,6 @@ st.markdown("""
         <p>🗓️ 45 Days Training</p>
     </div>
     """, unsafe_allow_html=True)
-
 
 
 st.markdown("""
