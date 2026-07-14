@@ -477,8 +477,6 @@ elif menu == "📝 Conclusion":
     st.write("""**Future Scope:**
 The Crime Radar project can be enhanced by integrating real-time crime data, machine learning for crime prediction, and GIS-based interactive maps. Future versions may also include a mobile application, emergency alerts, and AI-powered analytics to improve public safety and support police decision-making.
 """)
-
-
 st.markdown("""
 <style>
 
@@ -699,64 +697,6 @@ section[data-testid="stSidebar"] h3 {
 
 }
 
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<style>
-
-/* Sidebar Background */
-section[data-testid="stSidebar"] {
-
-    background: linear-gradient(
-        180deg,
-        #120000,
-        #330000,
-        #000000
-    ) !important;
-
-}
-
-
-/* Sidebar text */
-section[data-testid="stSidebar"] * {
-
-    color: white !important;
-
-}
-
-
-/* Sidebar menu hover */
-section[data-testid="stSidebar"] div:hover {
-
-    color: #ff3333 !important;
-
-}
-
-
-/* Radio buttons / menu */
-section[data-testid="stSidebar"] .stRadio label:hover {
-
-    background: rgba(255,0,0,0.25);
-
-    border-radius:10px;
-
-    padding:8px;
-
-}
-
-
-/* Sidebar title */
-section[data-testid="stSidebar"] h1,
-section[data-testid="stSidebar"] h2,
-section[data-testid="stSidebar"] h3 {
-
-    color:#ff3333 !important;
-
-    text-shadow:0 0 15px red;
-
-}
-
 
 </style>
 """, unsafe_allow_html=True)
@@ -829,3 +769,5 @@ st.markdown("""
         <p>🗓️ 45 Days Training</p>
     </div>
     """, unsafe_allow_html=True)
+
+
