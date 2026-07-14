@@ -328,8 +328,8 @@ if menu == "📊 Crime Analytics":
             ax.grid(axis="y", linestyle="--", alpha=0.4, color="white")
             legend = ax.legend(
             title="Arrest",
-    facecolor="black",
-    edgecolor="white"
+            facecolor="black",
+            edgecolor="white"
 )
             plt.setp(legend.get_texts(), color="white")
             plt.setp(legend.get_title(), color="white")
