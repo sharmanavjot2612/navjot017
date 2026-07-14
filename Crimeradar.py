@@ -517,6 +517,33 @@ elif menu == "📝 Conclusion":
     st.write("""**Future Scope:**
 The Crime Radar project can be enhanced by integrating real-time crime data, machine learning for crime prediction, and GIS-based interactive maps. Future versions may also include a mobile application, emergency alerts, and AI-powered analytics to improve public safety and support police decision-making.
 """)
+
+st.markdown("""
+    <style>
+    .director-box {
+        background-color: #2f2f2f;
+        padding: 15px;
+        border-radius: 15px;
+        text-align: center;
+        color: white;
+        border: 1px solid #555;
+    }
+    .director-box h3 {
+        color: #00c6ff;
+    }
+    </style>
+
+    <div class="director-box">
+        <h3>🚔 Crime Radar</h3>
+        <p>📌 Directed By</p>
+        <h4>Navjot Sharma</h4>
+        <p>📊 Data Science Project</p>
+        <p>🗓️ 45 Days Training</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+
 st.markdown("""
 <style>
 
@@ -784,30 +811,5 @@ def add_bg_from_local(image_file):
     )
 add_bg_from_local("bg1.jpg")
 
-
-
-st.markdown("""
-    <style>
-    .director-box {
-        background-color: #2f2f2f;
-        padding: 15px;
-        border-radius: 15px;
-        text-align: center;
-        color: white;
-        border: 1px solid #555;
-    }
-    .director-box h3 {
-        color: #00c6ff;
-    }
-    </style>
-
-    <div class="director-box">
-        <h3>🚔 Crime Radar</h3>
-        <p>📌 Directed By</p>
-        <h4>Navjot Sharma</h4>
-        <p>📊 Data Science Project</p>
-        <p>🗓️ 45 Days Training</p>
-    </div>
-    """, unsafe_allow_html=True)
 
 
