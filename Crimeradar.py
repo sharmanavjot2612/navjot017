@@ -212,7 +212,7 @@ if menu == "🧹 Data Cleaning":
         df["Month"] = pd.to_datetime(df["Month"], errors="coerce")
         st.success("Month column converted into date format")
     
-lif menu == "🗺️ Hotspot Map":
+elif menu == "🗺️ Hotspot Map":
 
     st.title("🗺️ Crime Hotspots")
 
