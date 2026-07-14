@@ -254,52 +254,96 @@ if menu == "📊 Crime Analytics":
     
 
     with col1:
-
         crime = df["Primary Type"].value_counts().head(10).sort_values()
 
-        plt.figure(figsize=(10,6))
-        plt.barh(crime.index, crime.values,
-                 color="tomato",
-                 edgecolor="black")
-        plt.title("🚔 Top 10 Crime Types",
-                  fontsize=16,
-                  fontweight="bold")
-        plt.xlabel("Number of Crimes")
-        plt.grid(axis="x", linestyle="--", alpha=0.5)
-        plt.tight_layout()
+        fig, ax = plt.subplots(figsize=(10,6), facecolor="black")
+        ax.set_facecolor("black")
 
-        st.pyplot(plt)
-        
-
-    with col2:
-
-        crime = df["Primary Type"].value_counts().head(6)
-
-        plt.figure(figsize=(7,7))
-
-        plt.pie(
-            crime.values,
-            labels=crime.index,
-            autopct="%1.1f%%",
-            wedgeprops={"width":0.4})
-
-        plt.title("🚨 Crime Distribution")
-
-        st.pyplot(plt)
-        crime_arrest = pd.crosstab(df["Primary Type"], df["Arrest"]).head(10)
-        crime_arrest.plot(
-        kind="bar",
-        stacked=True,
-        figsize=(12,6)
+        ax.barh(
+        crime.index,
+        crime.values,
+        color="tomato",
+        edgecolor="white"
     )
-        plt.title("👮 Crime Type vs Arrest")
-        plt.xlabel("Crime Type")
-        plt.ylabel("Number of Crimes")
-        plt.xticks(rotation=45)
+
+        ax.set_title("🚔 Top 10 Crime Types",
+                 fontsize=16,
+                 fontweight="bold",
+                 color="white")
+
+        ax.set_xlabel("Number of Crimes", color="white")
+
+        ax.tick_params(colors="white")
+        ax.grid(axis="x", linestyle="--", alpha=0.4, color="white")
+
+        for spine in ax.spines.values():
+            spine.set_color("white")
+
         plt.tight_layout()
-        st.pyplot(plt)
+        st.pyplot(fig)
     
 
+    # 
+with col2:
+
+    crime = df["Primary Type"].value_counts().head(6)
+
+    fig, ax = plt.subplots(figsize=(7,7), facecolor="black")
+    ax.set_facecolor("black")
+
+    ax.pie(
+        crime.values,
+        labels=crime.index,
+        autopct="%1.1f%%",
+        wedgeprops={"width":0.4},
+        textprops={"color":"white"}
+    )
+
+    ax.set_title("🚨 Crime Distribution", color="white")
+
+    st.pyplot(fig)
+
+    # Crime vs Arrest
+    crime_arrest = pd.crosstab(df["Primary Type"], df["Arrest"]).head(10)
+
+    fig, ax = plt.subplots(figsize=(12,6), facecolor="black")
+    ax.set_facecolor("black")
+
+    crime_arrest.plot(
+        kind="bar",
+        stacked=True,
+        color=["#FF4D4D", "#00E676"],
+        edgecolor="white",
+        ax=ax
+    )
+
+    ax.set_title("👮 Crime Type vs Arrest",
+                 color="white",
+                 fontsize=16)
+
+    ax.set_xlabel("Crime Type", color="white")
+    ax.set_ylabel("Number of Crimes", color="white")
+
+    ax.tick_params(colors="white")
+    plt.xticks(rotation=45)
+
+    for spine in ax.spines.values():
+        spine.set_color("white")
+
+    ax.grid(axis="y", linestyle="--", alpha=0.4, color="white")
+    legend = ax.legend(
+    title="Arrest",
+    facecolor="black",
+    edgecolor="white"
+)
+    plt.setp(legend.get_texts(), color="white")
+    plt.setp(legend.get_title(), color="white")
+
+    plt.tight_layout()
+
+    st.pyplot(fig)
+
+    
 if menu == "👮 Arrest Analysis":
 
     st.title("👮 Arrest Analysis")
