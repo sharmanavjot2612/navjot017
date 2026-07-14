@@ -246,7 +246,7 @@ if menu == "🗺️ Hotspot Map":
         st.pyplot(plt)
     
 
-if menu == "📊 Crime Analytics":
+elif menu == "📊 Crime Analytics":
 
     st.title("📊 Crime Analysis")
 
