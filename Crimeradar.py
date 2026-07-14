@@ -212,136 +212,193 @@ if menu == "🧹 Data Cleaning":
         df["Month"] = pd.to_datetime(df["Month"], errors="coerce")
         st.success("Month column converted into date format")
     
-if menu == "🗺️ Hotspot Map":
+lif menu == "🗺️ Hotspot Map":
+
     st.title("🗺️ Crime Hotspots")
+
     col1, col2 = st.columns(2)
 
     with col1:
-        location = df["Location Description"].value_counts().head(10)
+        location = df["Location Description"].value_counts().head(10).sort_values()
 
-        plt.figure(figsize=(8,5))
-        location.sort_values().plot(kind="barh")
-        plt.title("Top Crime Locations")
-        plt.xlabel("Number of Crimes")
-        st.pyplot(plt)
-        
+        fig, ax = plt.subplots(figsize=(8, 5), facecolor="black")
+        ax.set_facecolor("black")
 
+        ax.barh(location.index, location.values,
+                color="cyan", edgecolor="white")
+
+        ax.set_title("📍 Top Crime Locations", color="white")
+        ax.set_xlabel("Number of Crimes", color="white")
+
+        ax.tick_params(colors="white")
+
+        for spine in ax.spines.values():
+            spine.set_color("white")
+
+        st.pyplot(fig)
 
     with col2:
         community = df["Community Area"].value_counts().head(10)
 
-        plt.figure(figsize=(8,5))
-        community.plot(kind="bar", color="purple")
-        plt.title("🏙️ Top Community Areas with Crimes")
-        plt.xlabel("Community Area")
-        plt.ylabel("Crime Count")
-        plt.tight_layout()
-        st.pyplot(plt)
+        fig, ax = plt.subplots(figsize=(8, 5), facecolor="black")
+        ax.set_facecolor("black")
 
-        plt.figure(figsize=(8,6))
-        plt.scatter(df["Longitude"], df["Latitude"], alpha=0.3, s=8)
-        plt.title("Crime Hotspots")
-        plt.xlabel("Longitude") 
-        plt.ylabel("Latitude")
-        st.pyplot(plt)
-    
+        ax.bar(
+            community.index.astype(str),
+            community.values,
+            color="purple",
+            edgecolor="white"
+        )
 
+        ax.set_title("🏙️ Top Community Areas", color="white")
+        ax.set_xlabel("Community Area", color="white")
+        ax.set_ylabel("Crime Count", color="white")
+
+        ax.tick_params(colors="white")
+
+        for spine in ax.spines.values():
+            spine.set_color("white")
+
+        plt.xticks(rotation=45)
+
+        st.pyplot(fig)
+
+        # Scatter Plot
+        fig, ax = plt.subplots(figsize=(8, 6), facecolor="black")
+        ax.set_facecolor("black")
+
+        ax.scatter(
+            df["Longitude"],
+            df["Latitude"],
+            alpha=0.3,
+            s=8,
+            color="red"
+        )
+
+        ax.set_title("🔥 Crime Hotspots", color="white")
+        ax.set_xlabel("Longitude", color="white")
+        ax.set_ylabel("Latitude", color="white")
+
+        ax.tick_params(colors="white")
+
+        for spine in ax.spines.values():
+            spine.set_color("white")
+
+        st.pyplot(fig)
+
+
+# ================= CRIME ANALYTICS =================
 elif menu == "📊 Crime Analytics":
 
     st.title("📊 Crime Analysis")
 
     col1, col2 = st.columns(2)
-    
 
     with col1:
+
         crime = df["Primary Type"].value_counts().head(10).sort_values()
 
-        fig, ax = plt.subplots(figsize=(10,6), facecolor="black")
+        fig, ax = plt.subplots(figsize=(10, 6), facecolor="black")
         ax.set_facecolor("black")
 
         ax.barh(
-        crime.index,
-        crime.values,
-        color="tomato",
-        edgecolor="white"
-    )
+            crime.index,
+            crime.values,
+            color="tomato",
+            edgecolor="white"
+        )
 
-        ax.set_title("🚔 Top 10 Crime Types",
-                 fontsize=16,
-                 fontweight="bold",
-                 color="white")
+        ax.set_title(
+            "🚔 Top 10 Crime Types",
+            fontsize=16,
+            fontweight="bold",
+            color="white"
+        )
 
         ax.set_xlabel("Number of Crimes", color="white")
-
         ax.tick_params(colors="white")
-        ax.grid(axis="x", linestyle="--", alpha=0.4, color="white")
+
+        ax.grid(axis="x", linestyle="--",
+                alpha=0.4, color="white")
 
         for spine in ax.spines.values():
             spine.set_color("white")
 
-        plt.tight_layout()
         st.pyplot(fig)
-    
+
     with col2:
+
         crime = df["Primary Type"].value_counts().head(6)
 
-        fig, ax = plt.subplots(figsize=(7,7), facecolor="black")
+        fig, ax = plt.subplots(figsize=(7, 7), facecolor="black")
         ax.set_facecolor("black")
 
         ax.pie(
-        crime.values,
-        labels=crime.index,
-        autopct="%1.1f%%",
-        wedgeprops={"width":0.4},
-        textprops={"color":"white"}
-    )
+            crime.values,
+            labels=crime.index,
+            autopct="%1.1f%%",
+            wedgeprops={"width": 0.4},
+            textprops={"color": "white"}
+        )
 
         ax.set_title("🚨 Crime Distribution", color="white")
 
         st.pyplot(fig)
-        
-        crime_arrest = pd.crosstab(df["Primary Type"], df["Arrest"]).head(10)
 
-        fig, ax = plt.subplots(figsize=(12,6), facecolor="black")
+        # Crime vs Arrest
+        crime_arrest = pd.crosstab(
+            df["Primary Type"],
+            df["Arrest"]
+        ).head(10)
+
+        fig, ax = plt.subplots(figsize=(12, 6), facecolor="black")
         ax.set_facecolor("black")
 
         crime_arrest.plot(
-        kind="bar",
-        stacked=True,
-        color=["#FF4D4D", "#00E676"],
-        edgecolor="white",
-        ax=ax
-    )
+            kind="bar",
+            stacked=True,
+            color=["#FF4D4D", "#00E676"],
+            edgecolor="white",
+            ax=ax
+        )
 
-        ax.set_title("👮 Crime Type vs Arrest",
-                 color="white",
-                 fontsize=16)
+        ax.set_title(
+            "👮 Crime Type vs Arrest",
+            color="white",
+            fontsize=16
+        )
 
         ax.set_xlabel("Crime Type", color="white")
         ax.set_ylabel("Number of Crimes", color="white")
 
         ax.tick_params(colors="white")
-        plt.xticks(rotation=45)
 
         for spine in ax.spines.values():
             spine.set_color("white")
 
-            ax.grid(axis="y", linestyle="--", alpha=0.4, color="white")
-            legend = ax.legend(
+        ax.grid(
+            axis="y",
+            linestyle="--",
+            alpha=0.4,
+            color="white"
+        )
+
+        legend = ax.legend(
             title="Arrest",
             facecolor="black",
             edgecolor="white"
-)
-            plt.setp(legend.get_texts(), color="white")
-            plt.setp(legend.get_title(), color="white")
+        )
 
-            plt.tight_layout()
-            st.pyplot(fig)
-            plt.close(fig)
+        plt.setp(legend.get_texts(), color="white")
+        plt.setp(legend.get_title(), color="white")
+
+        plt.xticks(rotation=45)
+
+        st.pyplot(fig)
 
 
-    
-if menu == "👮 Arrest Analysis":
+# ================= ARREST ANALYSIS =================
+elif menu == "👮 Arrest Analysis":
 
     st.title("👮 Arrest Analysis")
 
@@ -350,68 +407,135 @@ if menu == "👮 Arrest Analysis":
     with col1:
         arrest = df["Arrest"].value_counts()
 
-        fig, ax = plt.subplots(figsize=(5,5))
-        ax.pie(arrest, labels=arrest.index, autopct="%1.1f%%", startangle=90)
-        ax.set_title("Arrest Status")
+        fig, ax = plt.subplots(figsize=(6,6), facecolor="black")
+        ax.set_facecolor("black")
+
+        colors = ["#00E676", "#FF5252"]   # Green = Arrest, Red = No Arrest
+
+        ax.pie(
+        arrest.values,
+        labels=arrest.index,
+        autopct="%1.1f%%",
+        startangle=90,
+        colors=colors,
+        explode=[0.05, 0.05],
+        shadow=True,
+        textprops={"color":"white","fontsize":12},
+        wedgeprops={"edgecolor":"white","linewidth":2}
+    )
+
+        ax.set_title("👮 Arrest Status", color="white", fontsize=16)
         st.pyplot(fig)
 
     with col2:
         domestic = df["Domestic"].value_counts()
 
-        fig, ax = plt.subplots(figsize=(5,5))
-        ax.pie(domestic, labels=domestic.index, autopct="%1.1f%%")
-        ax.set_title("Domestic Crimes")
+        fig, ax = plt.subplots(figsize=(6,6), facecolor="black")
+        ax.set_facecolor("black")
+
+        colors = ["#FFD54F", "#42A5F5"]   # Yellow & Blue
+ 
+        ax.pie(
+         domestic.values,
+        labels=domestic.index,
+        autopct="%1.1f%%",
+        startangle=90,
+        colors=colors,
+        explode=[0.05, 0.05],
+        shadow=True,
+        textprops={"color":"white","fontsize":12},
+        wedgeprops={"edgecolor":"white","linewidth":2}
+    )
+
+        ax.set_title("🏠 Domestic Crimes", color="white", fontsize=16)
         st.pyplot(fig)
-
-
-        st.subheader("📊 Crime Type vs Arrest")
-
-        crime_arrest = pd.crosstab(df["Primary Type"], df["Arrest"]).head(10)
-
-        fig, ax = plt.subplots(figsize=(10,5))
-        crime_arrest.plot(kind="bar", stacked=True, ax=ax)
-
-        ax.set_xlabel("Crime Type")
-        ax.set_ylabel("Number of Crimes")
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-
-    st.pyplot(fig)
 
     col3, col4 = st.columns(2)
 
     with col3:
 
-        corr = df[["Latitude","Longitude","District","Ward"]].corr(numeric_only=True)
+        corr = df[
+            ["Latitude", "Longitude", "District", "Ward"]
+        ].corr(numeric_only=True)
 
-        fig, ax = plt.subplots(figsize=(6,5))
-        sns.heatmap(corr,annot=True,cmap="coolwarm",ax=ax)
+        fig, ax = plt.subplots(figsize=(6, 5), facecolor="black")
+        ax.set_facecolor("black")
 
-        ax.set_title("Correlation Heatmap")
+        sns.heatmap(
+            corr,
+            annot=True,
+            cmap="coolwarm",
+            ax=ax
+        )
+
+        ax.set_title("Correlation Heatmap", color="white")
+
         st.pyplot(fig)
 
     with col4:
 
-        categories = ['Theft','Assault','Burglary','Robbery','Fraud']
-        values = [80,60,70,50,90]
+        categories = [
+            "Theft",
+            "Assault",
+            "Burglary",
+            "Robbery",
+            "Fraud"
+        ]
+
+        values = [80, 60, 70, 50, 90]
 
         radar_fig = go.Figure()
 
-        radar_fig.add_trace(go.Scatterpolar(r=values,theta=categories,fill='toself'))
+        radar_fig.add_trace(
+            go.Scatterpolar(
+                r=values,
+                theta=categories,
+                fill="toself"
+            )
+        )
 
-        radar_fig.update_layout(title="Crime Radar Chart",polar=dict(radialaxis=dict(visible=True,range=[0,100])),height=450,showlegend=False)
+        radar_fig.update_layout(
+            title="Crime Radar Chart",
+            paper_bgcolor="black",
+            plot_bgcolor="black",
+            font=dict(color="white"),
+            polar=dict(
+                bgcolor="black",
+                radialaxis=dict(
+                    visible=True,
+                    range=[0, 100]
+                )
+            ),
+            showlegend=False
+        )
 
-        st.plotly_chart(radar_fig,width="stretch")
+        st.plotly_chart(
+            radar_fig,
+            use_container_width=True
+        )
 
         st.subheader("🌳 Crime Type & Arrest Status")
 
-        sunburst_df = df.dropna(subset=["Primary Type","Arrest"])
+        sunburst_df = df.dropna(
+            subset=["Primary Type", "Arrest"]
+        )
 
-        sunburst_fig = px.sunburst(sunburst_df,path=["Primary Type","Arrest"],color="Primary Type")
+        sunburst_fig = px.sunburst(
+            sunburst_df,
+            path=["Primary Type", "Arrest"],
+            color="Primary Type"
+        )
 
-        sunburst_fig.update_layout(height=650)
+        sunburst_fig.update_layout(
+            paper_bgcolor="black",
+            font=dict(color="white"),
+            height=650
+        )
 
-        st.plotly_chart(sunburst_fig, use_container_width=True)
+        st.plotly_chart(
+            sunburst_fig,
+            use_container_width=True
+        )
 
 elif menu == "⏰ Time Analysis":
 
