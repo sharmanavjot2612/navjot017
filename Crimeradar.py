@@ -282,16 +282,13 @@ if menu == "📊 Crime Analytics":
         plt.tight_layout()
         st.pyplot(fig)
     
+    with col2:
+        crime = df["Primary Type"].value_counts().head(6)
 
-    # 
-with col2:
+        fig, ax = plt.subplots(figsize=(7,7), facecolor="black")
+        ax.set_facecolor("black")
 
-    crime = df["Primary Type"].value_counts().head(6)
-
-    fig, ax = plt.subplots(figsize=(7,7), facecolor="black")
-    ax.set_facecolor("black")
-
-    ax.pie(
+        ax.pie(
         crime.values,
         labels=crime.index,
         autopct="%1.1f%%",
@@ -299,17 +296,17 @@ with col2:
         textprops={"color":"white"}
     )
 
-    ax.set_title("🚨 Crime Distribution", color="white")
+        ax.set_title("🚨 Crime Distribution", color="white")
 
-    st.pyplot(fig)
+        st.pyplot(fig)
 
     # Crime vs Arrest
-    crime_arrest = pd.crosstab(df["Primary Type"], df["Arrest"]).head(10)
+        crime_arrest = pd.crosstab(df["Primary Type"], df["Arrest"]).head(10)
 
-    fig, ax = plt.subplots(figsize=(12,6), facecolor="black")
-    ax.set_facecolor("black")
+        fig, ax = plt.subplots(figsize=(12,6), facecolor="black")
+        ax.set_facecolor("black")
 
-    crime_arrest.plot(
+        crime_arrest.plot(
         kind="bar",
         stacked=True,
         color=["#FF4D4D", "#00E676"],
@@ -317,31 +314,31 @@ with col2:
         ax=ax
     )
 
-    ax.set_title("👮 Crime Type vs Arrest",
+        ax.set_title("👮 Crime Type vs Arrest",
                  color="white",
                  fontsize=16)
 
-    ax.set_xlabel("Crime Type", color="white")
-    ax.set_ylabel("Number of Crimes", color="white")
+        ax.set_xlabel("Crime Type", color="white")
+        ax.set_ylabel("Number of Crimes", color="white")
 
-    ax.tick_params(colors="white")
-    plt.xticks(rotation=45)
+        ax.tick_params(colors="white")
+        plt.xticks(rotation=45)
 
-    for spine in ax.spines.values():
+        for spine in ax.spines.values():
         spine.set_color("white")
 
-    ax.grid(axis="y", linestyle="--", alpha=0.4, color="white")
-    legend = ax.legend(
+        ax.grid(axis="y", linestyle="--", alpha=0.4, color="white")
+        legend = ax.legend(
     title="Arrest",
     facecolor="black",
     edgecolor="white"
 )
-    plt.setp(legend.get_texts(), color="white")
-    plt.setp(legend.get_title(), color="white")
+       plt.setp(legend.get_texts(), color="white")
+       plt.setp(legend.get_title(), color="white")
 
-    plt.tight_layout()
+       plt.tight_layout()
 
-    st.pyplot(fig)
+       st.pyplot(fig)
 
     
 if menu == "👮 Arrest Analysis":
