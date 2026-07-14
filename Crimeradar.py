@@ -325,20 +325,20 @@ if menu == "📊 Crime Analytics":
         plt.xticks(rotation=45)
 
         for spine in ax.spines.values():
-        spine.set_color("white")
+            spine.set_color("white")
 
-        ax.grid(axis="y", linestyle="--", alpha=0.4, color="white")
-        legend = ax.legend(
+            ax.grid(axis="y", linestyle="--", alpha=0.4, color="white")
+            legend = ax.legend(
     title="Arrest",
     facecolor="black",
     edgecolor="white"
 )
-       plt.setp(legend.get_texts(), color="white")
-       plt.setp(legend.get_title(), color="white")
+            plt.setp(legend.get_texts(), color="white")
+            plt.setp(legend.get_title(), color="white")
 
-       plt.tight_layout()
+            plt.tight_layout()
 
-       st.pyplot(fig)
+            st.pyplot(fig)
 
     
 if menu == "👮 Arrest Analysis":
