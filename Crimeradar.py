@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import seaborn as sns
 import base64
 
-st.set_page_config(page_title="Crime Radar",page_icon="🚔",layout="wide")
+st.set_page_config(page_title="Crime Radar",page_icon="🚔",layout="wide",initial_sidebar_state="expanded")
 st.sidebar.markdown("## 🚔 Crime Radar")
 menu = st.sidebar.radio("Navigation",["🏠 Overview","📁 Upload & Preview","🧹 Data Cleaning","📊 Crime Analytics","🗺️ Hotspot Map","👮 Arrest Analysis","⏰ Time Analysis","📝 Conclusion"],label_visibility="collapsed")
 
@@ -19,6 +19,7 @@ except FileNotFoundError:
 if menu == "🏠 Overview":
 
     st.title("🚔 Crime Radar Dashboard")
+    st.caption("Interactive Data Science Dashboard for Crime Analysis")
 
     st.write("### 🚔 About Crime Radar")
     st.write("""
@@ -151,23 +152,42 @@ elif menu == "📁 Upload & Preview":
         st.subheader("📋 Chicago Crime Dataset")
         st.dataframe(df, width="stretch")
         st.subheader("📋 Crime Dataset Preview")
-        df = pd.read_csv("chicago_crime_sample.csv")
         st.subheader("First 10 Records")
         st.dataframe(df.head(10), use_container_width=True)
-        st.subheader("Dataset Shape")
-        st.write("Rows :", df.shape[0])
-        st.write("Columns :", df.shape[1])
-        
-        st.subheader("Column Names")
-        st.write(df.columns.tolist())
-        
-        st.subheader("Data Types")
-        st.dataframe(df.dtypes)
-        
-        st.subheader("Missing Values")
-        st.dataframe(df.isnull().sum())
+        st.subheader("📊 Dataset Summary")
 
+        col1, col2, col3, col4 = st.columns(4)
 
+        col1.metric("📄 Rows", f"{df.shape[0]:,}")
+        col2.metric("📑 Columns", df.shape[1])
+        col3.metric("❌ Missing Values", int(df.isnull().sum().sum()))
+        col4.metric("🗂️ Duplicate Rows", int(df.duplicated().sum()))
+        
+        # st.subheader("Column Names")
+        # st.write(df.columns.tolist())
+        # ===== CHANGE: Better Column Display =====
+        st.subheader("📝 Dataset Columns")
+        st.dataframe(pd.DataFrame({"Columns": df.columns}), use_container_width=True)
+        
+        # st.subheader("Data Types")
+        # st.dataframe(df.dtypes)
+        # ===== CHANGE: Better Data Types Table =====
+        st.subheader("📌 Data Types")
+        st.dataframe(
+        df.dtypes.reset_index().rename(
+        columns={"index": "Column", 0: "Data Type"}),use_container_width=True)
+        
+        # st.subheader("Missing Values")
+        # st.dataframe(df.isnull().sum())
+        # ===== CHANGE: Better Missing Values Report =====
+        st.subheader("🔍 Missing Values")
+
+        missing = pd.DataFrame({
+    "Column": df.columns,
+    "Missing Values": df.isnull().sum().values
+})
+
+        st.dataframe(missing, use_container_width=True)
 
 if menu == "🧹 Data Cleaning":
     st.subheader("📄 Original Dataset Information")
