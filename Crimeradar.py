@@ -189,18 +189,17 @@ elif menu == "📁 Upload & Preview":
 
         st.dataframe(missing, use_container_width=True)
 
-if menu == "🧹 Data Cleaning":
+elif menu == "🧹 Data Cleaning":
     st.subheader("📄 Original Dataset Information")
 
     # Dataset Info
     col1, col2 = st.columns(2)
-
+    
     with col1:
         st.metric("Total Rows", df.shape[0])
 
     with col2:
         st.metric("Total Columns", df.shape[1])
-
     st.markdown("---")
 
     # Missing Values and Duplicate Records
@@ -209,28 +208,28 @@ if menu == "🧹 Data Cleaning":
     with col3:
         st.subheader("🔍 Missing Values")
         missing = df.isnull().sum()
-        st.dataframe(missing[missing > 0], width="stretch")
+        st.dataframe(missing[missing > 0], use_container_width=True)
 
     with col4:
         st.subheader("🧹 Duplicate Records")
         duplicates = df.duplicated().sum()
         st.metric("Duplicate Rows", duplicates)
 
-    st.markdown("---")
+        st.markdown("---")
 
     # Data Cleaning
-    st.subheader("🔧 Handling Missing Values")
-    df = df.drop_duplicates()
-    df = df.dropna()
-    st.success("Missing values removed successfully")
+        st.subheader("🔧 Handling Missing Values")
+        df = df.drop_duplicates()
+        df = df.dropna()
+        st.success("Missing values removed successfully")
 
-    st.subheader("✏️ Column Name Cleaning")
-    df.columns = df.columns.str.strip()
-    st.success("Extra spaces removed from column names")
+        st.subheader("✏️ Column Name Cleaning")
+        df.columns = df.columns.str.strip()
+        st.success("Extra spaces removed from column names")
 
-    if "Month" in df.columns:
-        df["Month"] = pd.to_datetime(df["Month"], errors="coerce")
-        st.success("Month column converted into date format")
+        if "Month" in df.columns:
+            df["Month"] = pd.to_datetime(df["Month"], errors="coerce")
+            st.success("Month column converted into date format")
     
 elif menu == "🗺️ Hotspot Map":
 
