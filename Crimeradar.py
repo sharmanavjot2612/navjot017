@@ -559,10 +559,6 @@ elif menu == "👮 Arrest Analysis":
 elif menu == "⏰ Time Analysis":
 
     st.title("⏰ Time Analysis")
-    
-    # df.columns = df.columns.str.strip()
-    # st.write(df.columns.tolist())
-
     st.write("Dataset Columns:", df.columns.tolist())
 
     # Find date/month column automatically
@@ -647,16 +643,20 @@ elif menu == "⏰ Time Analysis":
             )
 
             st.plotly_chart(fig3,width="stretch")
-
-        else:
-            st.warning("Crime type column not found")
-
 elif menu == "📝 Conclusion":
     st.subheader("✅ Conclusion")
 
-    st.write("""
-    Crime Radar successfully applies Data Science techniques such as data cleaning, processing, analysis, and visualization to understand crime patterns and trends. The interactive dashboard presents meaningful insights from historical crime data, helping users explore crime distributions and make informed data-driven decisions.
-    """)
+    st.markdown("""
+1. **Crime Radar effectively applies Data Science techniques** to collect, clean, process, and analyze crime data for meaningful insights.
+
+2. **The project converts raw crime records into clear visualizations** such as charts, graphs, and maps, making crime trends and patterns easier to understand.
+
+3. **Data analysis helps identify crime frequency, hotspot locations, and time-based trends**, supporting a better understanding of historical crime data.
+
+4. **The use of Python, Pandas, Matplotlib, Plotly, and Streamlit** demonstrates how Data Science can be used to build an interactive and informative crime analysis dashboard.
+
+5. **The project provides a simple, accurate, and efficient Data Science solution** for crime analysis, enabling users to explore data and make informed decisions based on historical crime records.
+""") 
     st.subheader("🚀 Future Scope")
     st.write("""**Future Scope:**
 The Crime Radar project can be enhanced by integrating real-time crime data, machine learning for crime prediction, and GIS-based interactive maps. Future versions may also include a mobile application, emergency alerts, and AI-powered analytics to improve public safety and support police decision-making.
