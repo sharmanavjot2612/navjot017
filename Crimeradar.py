@@ -658,8 +658,17 @@ elif menu == "📝 Conclusion":
 5. **The project provides a simple, accurate, and efficient Data Science solution** for crime analysis, enabling users to explore data and make informed decisions based on historical crime records.
 """) 
     st.subheader("🚀 Future Scope")
-    st.write("""**Future Scope:**
-The Crime Radar project can be enhanced by integrating real-time crime data, machine learning for crime prediction, and GIS-based interactive maps. Future versions may also include a mobile application, emergency alerts, and AI-powered analytics to improve public safety and support police decision-making.
+
+    st.markdown("""
+1. **Integrate Artificial Intelligence (AI) and Machine Learning (ML)** models to predict future crime trends based on historical crime data.
+
+2. **Implement real-time crime data integration** from police or government sources to provide up-to-date analysis and visualizations.
+
+3. **Enhance hotspot detection** using advanced geospatial analysis and AI-based clustering techniques for more accurate crime mapping.
+
+4. **Develop mobile and web-based applications** with personalized dashboards, alerts, and role-based access for different users.
+
+5. **Expand the system with advanced analytics** such as crime forecasting, anomaly detection, and intelligent decision-support tools using AI and ML.
 """)
 
     st.markdown("""
