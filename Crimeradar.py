@@ -234,20 +234,29 @@ elif menu == "🧹 Data Cleaning":
 elif menu == "🗺️ Hotspot Map":
 
     st.title("🗺️ Crime Hotspots")
-
     col1, col2 = st.columns(2)
-
     with col1:
-        location = df["Location Description"].value_counts().head(10).sort_values()
+        location = (
+            df["Location Description"]
+            .value_counts()
+            .head(10)
+            .sort_values()
+        )
 
-        fig, ax = plt.subplots(figsize=(8, 5), facecolor="black")
+        fig, ax = plt.subplots(figsize=(4, 5), facecolor="black")
         ax.set_facecolor("black")
 
-        ax.barh(location.index, location.values,
-                color="cyan", edgecolor="white")
+        ax.barh(
+            location.index,
+            location.values,
+            color="deepskyblue",
+            edgecolor="white",
+        )
 
         ax.set_title("📍 Top Crime Locations", color="white")
         ax.set_xlabel("Number of Crimes", color="white")
+
+        ax.grid(axis="x", linestyle="--", alpha=0.3, color="white")
 
         ax.tick_params(colors="white")
 
@@ -255,11 +264,11 @@ elif menu == "🗺️ Hotspot Map":
             spine.set_color("white")
 
         st.pyplot(fig)
-
     with col2:
+
         community = df["Community Area"].value_counts().head(10)
 
-        fig, ax = plt.subplots(figsize=(8, 5), facecolor="black")
+        fig, ax = plt.subplots(figsize=(7, 5), facecolor="black")
         ax.set_facecolor("black")
 
         ax.bar(
@@ -275,6 +284,8 @@ elif menu == "🗺️ Hotspot Map":
 
         ax.tick_params(colors="white")
 
+        ax.grid(axis="y", linestyle="--", alpha=0.3, color="white")
+
         for spine in ax.spines.values():
             spine.set_color("white")
 
@@ -282,16 +293,25 @@ elif menu == "🗺️ Hotspot Map":
 
         st.pyplot(fig)
 
-        # Scatter Plot
+    # =========================
+    # Row 2
+    # =========================
+    col3, col4 = st.columns(2)
+
+    # -------------------------
+    # Crime Hotspots
+    # -------------------------
+    with col3:
+
         fig, ax = plt.subplots(figsize=(8, 6), facecolor="black")
         ax.set_facecolor("black")
 
         ax.scatter(
             df["Longitude"],
             df["Latitude"],
+            color="red",
             alpha=0.3,
-            s=8,
-            color="red"
+            s=8
         )
 
         ax.set_title("🔥 Crime Hotspots", color="white")
@@ -299,6 +319,44 @@ elif menu == "🗺️ Hotspot Map":
         ax.set_ylabel("Latitude", color="white")
 
         ax.tick_params(colors="white")
+
+        ax.grid(alpha=0.3, linestyle="--", color="white")
+
+        for spine in ax.spines.values():
+            spine.set_color("white")
+
+        st.pyplot(fig)
+    with col4:
+
+        df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+        df["Year"] = df["Date"].dt.year
+
+        yearly = df.groupby("Year").size()
+
+        fig, ax = plt.subplots(figsize=(8,6), facecolor="black")
+        ax.set_facecolor("black")
+
+        ax.plot(
+            yearly.index,
+            yearly.values,
+            marker="o",
+            linewidth=3,
+            color="deepskyblue"
+        )
+
+        ax.fill_between(
+            yearly.index,
+            yearly.values,
+            alpha=0.2,
+            color="deepskyblue"
+        )
+
+        ax.set_title("📈 Crime Trend by Year", color="white")
+        ax.set_xlabel("Year", color="white")
+        ax.set_ylabel("Crime Count", color="white")
+
+        ax.tick_params(colors="white")
+        ax.grid(color="white", alpha=0.3)
 
         for spine in ax.spines.values():
             spine.set_color("white")
