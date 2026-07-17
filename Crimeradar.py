@@ -420,7 +420,7 @@ elif menu == "📊 Crime Analytics":
         crime_arrest.plot(
             kind="bar",
             stacked=True,
-            color=["#FF4D4D", "#00E676"],
+          color=["#19F0DE", "#23A4BB"]
             edgecolor="white",
             ax=ax
         )
