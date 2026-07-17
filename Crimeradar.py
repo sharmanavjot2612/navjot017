@@ -317,7 +317,7 @@ elif menu == "📊 Crime Analytics":
 
         crime = df["Primary Type"].value_counts().head(10).sort_values()
 
-        fig, ax = plt.subplots(figsize=(10, 6), facecolor="black")
+        fig, ax = plt.subplots(figsize=(7, 6), facecolor="black")
         ax.set_facecolor("black")
 
         ax.barh(
@@ -337,8 +337,12 @@ elif menu == "📊 Crime Analytics":
         ax.set_xlabel("Number of Crimes", color="white")
         ax.tick_params(colors="white")
 
-        ax.grid(axis="x", linestyle="--",
-                alpha=0.4, color="white")
+        ax.grid(
+            axis="x",
+            linestyle="--",
+            alpha=0.4,
+            color="white"
+        )
 
         for spine in ax.spines.values():
             spine.set_color("white")
@@ -347,30 +351,12 @@ elif menu == "📊 Crime Analytics":
 
     with col2:
 
-        crime = df["Primary Type"].value_counts().head(6)
-
-        fig, ax = plt.subplots(figsize=(7, 7), facecolor="black")
-        ax.set_facecolor("black")
-
-        ax.pie(
-            crime.values,
-            labels=crime.index,
-            autopct="%1.1f%%",
-            wedgeprops={"width": 0.4},
-            textprops={"color": "white"}
-        )
-
-        ax.set_title("🚨 Crime Distribution", color="white")
-
-        st.pyplot(fig)
-
-        # Crime vs Arrest
         crime_arrest = pd.crosstab(
             df["Primary Type"],
             df["Arrest"]
         ).head(10)
 
-        fig, ax = plt.subplots(figsize=(12, 6), facecolor="black")
+        fig, ax = plt.subplots(figsize=(10, 6), facecolor="black")
         ax.set_facecolor("black")
 
         crime_arrest.plot(
@@ -384,7 +370,8 @@ elif menu == "📊 Crime Analytics":
         ax.set_title(
             "👮 Crime Type vs Arrest",
             color="white",
-            fontsize=16
+            fontsize=16,
+            fontweight="bold"
         )
 
         ax.set_xlabel("Crime Type", color="white")
@@ -411,11 +398,89 @@ elif menu == "📊 Crime Analytics":
         plt.setp(legend.get_texts(), color="white")
         plt.setp(legend.get_title(), color="white")
 
-        plt.xticks(rotation=45)
+        plt.xticks(rotation=45, ha="right")
 
         st.pyplot(fig)
 
+    col3, col4 = st.columns(2)
 
+    with col3:
+
+        crime = df["Primary Type"].value_counts().head(6)
+
+        fig, ax = plt.subplots(figsize=(7, 7), facecolor="black")
+        ax.set_facecolor("black")
+
+        ax.pie(
+            crime.values,
+            labels=crime.index,
+            autopct="%1.1f%%",
+            wedgeprops={"width": 0.4},
+            textprops={"color": "white"}
+        )
+
+        ax.set_title(
+            "🚨 Crime Distribution",
+            color="white",
+            fontsize=16,
+            fontweight="bold"
+        )
+
+        st.pyplot(fig)
+
+    with col4:
+
+        df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+        df["Year"] = df["Date"].dt.year
+
+        fig, ax = plt.subplots(figsize=(7, 6), facecolor="black")
+        ax.set_facecolor("black")
+
+        year_order = sorted(df["Year"].dropna().unique())
+
+        sns.countplot(
+            data=df,
+            x="Year",
+            order=year_order,
+            palette="magma",
+            edgecolor="white",
+            ax=ax
+        )
+
+        ax.set_title(
+            "📅 Crime Count by Year",
+            fontsize=16,
+            fontweight="bold",
+            color="white"
+        )
+
+        ax.set_xlabel("Year", color="white")
+        ax.set_ylabel("Number of Crimes", color="white")
+
+        ax.tick_params(colors="white", rotation=45)
+
+        ax.grid(
+            axis="y",
+            linestyle="--",
+            alpha=0.3,
+            color="white"
+        )
+
+        for spine in ax.spines.values():
+            spine.set_color("white")
+
+        # Value labels
+        for container in ax.containers:
+            ax.bar_label(
+                container,
+                color="white",
+                fontsize=8,
+                padding=3
+            )
+
+        plt.tight_layout()
+
+        st.pyplot(fig)
 # ================= ARREST ANALYSIS =================
 elif menu == "👮 Arrest Analysis":
 
